@@ -1,0 +1,47 @@
+{%extends 'base.html'%}
+
+
+{%block title%} 
+
+  Posts List
+
+{% endblock %}
+
+
+{%block content%} 
+
+<p>Content</p>
+ {%for post in pages.items%}
+  <div class="card">
+    <div class="card-header">
+      {{post.created.date()}}
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">
+        <a href="{{url_for('posts.post_detail', slug=post.slug)}}">
+          {{post.title}}
+        <a/>
+        </h5>
+      <p class="card-text">{{post.body}}</p>
+      <a href="{{url_for('posts.post_detail', slug=post.slug)}}" class="btn btn-primary">Read More</a>
+    </div>
+  </div>
+
+  {% endfor %}
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item {%if not pages.has_prev%} disabled {%endif%} "><a class="page-link" href="./?page={{pages.prev_num}}">Previous</a></li>
+
+
+      {%for page in pages.iter_pages()%}
+
+          <li class="page-item {%if page == pages.page %}active {%endif%}"><a class="page-link" href="./?page={{page}}">{{page}}</a></li>
+      {%endfor%}
+      <li class="page-item {%if not pages.has_next%} disabled {%endif%} "><a class="page-link" href="./?page={{pages.next_num}}">Next</a></li>
+    </ul>
+  </nav>
+
+
+{% endblock %}
+
